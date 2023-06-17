@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: sammy
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: gestion_envoi
+    container_name: gestion_envoi
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - gestion
+  nginx:
+    image: nginx:alpine
+    container_name: gestion_envoi-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - gestion
+  db:
+    image: mysql:5.7.37
+    container_name: gestion_envoi-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: compte
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_PASSWORD: 
+      MYSQL_USER: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - gestion
+networks:
+  gestion:
+    driver: bridge

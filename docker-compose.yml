@@ -20,7 +20,7 @@ services:
     container_name: gestion_envoi-nginx
     restart: unless-stopped
     ports:
-      - 8000:80
+      - 8000:5000
     volumes:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/

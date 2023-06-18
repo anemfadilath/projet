@@ -1,10 +1,10 @@
 version: '3.8'
 services:
-     app:
-    build:
-      args:
-        user: sammy
-        uid: 1000
+    app:
+      build:
+        args:
+          user: sammy
+          uid: 1000
       context: ./
       dockerfile: Dockerfile
     image: application

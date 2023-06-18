@@ -1,14 +1,26 @@
 version: '3.8'
 services:
-  web:
+     app:
     build:
+      args:
+        user: sammy
+        uid: 1000
       context: ./
-      target: dev
+      dockerfile: Dockerfile
+    image: application
+    container_name: application
+    restart: unless-stopped
+    working_dir: /var/www/
     volumes:
-      - .:/src
+      - ./:/var/www
     command: npm run start:dev
     ports:
       - "3000:3000"
     environment:
       NODE_ENV: development
       DEBUG: nodejs-docker-express:*
+    networks:
+      - gestion
+networks:
+  gestion:
+    driver: bridge
